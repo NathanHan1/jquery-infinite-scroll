@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>第一个简单的jQuery程序</title>
+    <style type="text/css">
+    * {
+        padding:0;
+        margin:0;
+        line-height: 1;
+    }
+        .show{
+            width:300px;
+            border: 1px solid;
+            border-radius: 4px;
+            margin:0 auto;
+        }
+        .caption{
+            text-align:center;
+        }
+        .content{
+            width:300px;
+            height:210px;
+            position: relative;
+            overflow:hidden;
+        }
+        .content li{
+            list-style: none;
+            display: inline-block;
+        }
+        .content-list{
+            font-size:0;
+            position:absolute;
+            left:-300px;
+            top:0;
+            width:1800px;
+        }
+        img{
+            width:300px;
+            height:210px;
+        }
+        .control-wrapper{
+            margin:0 auto;
+            width:50px;
+            height:50px;
+        }
+        .tip span{
+            margin-right:1.5px;
+            display: inline-block;
+            width: 10px;
+            height:10px;
+            border-radius:50%;
+            background:#1C86EE;
+        }
+        .tip span.current{
+            background: 	#AEEEEE;
+        }
+        .control button{
+            width:20px;
+            height:20px;
+        }
+
+    </style>
+    <script src="jquery-3.2.1.min.js"></script>
+    
+    
+    <script type="text/javascript" >
+        $(function() {
+            let page = 1
+            function apple(e) {
+                let content = $('.content-list')
+                let width = $('.content').width()
+                let length = $('li').length - 1
+                clearInterval(clock)
+                if (!content.is(':animated')) {
+                    if (e === 0) {
+                        content.animate({left: '-='+width}, 500)
+                        page++
+                        if (page === length) {
+                            setTimeout(() => {
+                                content.animate({left: '-300px'}, 1)
+                                page = 1
+                            }, 500)
+                        }
+                    }
+                    if (e === 1) {
+                        content.animate({left: '+='+width}, 500)
+                        page--
+                        if (page === 0) {
+                            setTimeout(() => {
+                                content.animate({left: '-1200px'}, 1)
+                                page = 4
+                            }, 500)
+                        }
+                    }
+                   setTimeout(() => {
+                        $('.tip').find('span').eq((page-1)).addClass('current').siblings().removeClass('current')
+                   }, 500)
+                }
+                clock = setInterval(function() {
+                    apple(0)
+                }, 4000)
+            }
+
+            let clock = setInterval(function() {
+                apple(0)
+            }, 4000)
+
+            $(".next").click(function() {
+                apple(0)
+            })
+            $(".prev").click(function() {
+                apple(1)
+            })
+        })
+    </script>
+</head>
+
+<body>
+    <div class="show">
+        <div class="caption">
+            <h2>海绵宝宝</h2>
+        </div>
+        <div class="content">
+            <div class="content-list">
+                <ul>
+                    <li><img src="http://i1.hdslb.com/bfs/archive/4ea9b97cce895f0772d476f7c5de3402fc3cc0c5.jpg@337w_211h.webp"/></li>
+                    <li><img src="http://i2.hdslb.com/bfs/archive/570942e832423123f5d4c9ad96f50aa08f445531.jpg@337w_211h.webp"/></li>
+                    <li><img src="http://i1.hdslb.com/bfs/archive/18f92857876382c4fdb056cd16629b01c72882f7.jpg@337w_211h.webp"/></li>
+                    <li><img src="http://i1.hdslb.com/bfs/archive/f1c3978b24fae69ca1c558433f211ebbc8066f37.jpg@337w_211h.webp"/></li>
+                    <li><img src="http://i1.hdslb.com/bfs/archive/4ea9b97cce895f0772d476f7c5de3402fc3cc0c5.jpg@337w_211h.webp"/></li>
+                    <li><img src="http://i2.hdslb.com/bfs/archive/570942e832423123f5d4c9ad96f50aa08f445531.jpg@337w_211h.webp"/></li>
+                </ul>
+            </div>
+        </div>
+        <div class="control-wrapper">
+            <div class="tip">
+                <span class="current"></span><span></span><span></span><span></span>
+            </div>
+            <div class="control">
+                <button class="prev" value="上一个"></button>
+                <button class="next" value="下一个"></button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
