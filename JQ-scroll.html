@@ -72,32 +72,33 @@
                 let content = $('.content-list')
                 let width = $('.content').width()
                 let length = $('li').length - 1
+
                 clearInterval(clock)
+
                 if (!content.is(':animated')) {
                     if (e === 0) {
-                        content.animate({left: '-='+width}, 500)
-                        page++
-                        if (page === length) {
-                            setTimeout(() => {
-                                content.animate({left: '-300px'}, 1)
-                                page = 1
-                            }, 500)
-                        }
+                        content.animate({left: `-=${width}`}, 500, function() {
+                            page++
+                            if (page === length) {
+                                    content.css({'left': '-300px'})
+                                    page = 1
+                            }
+                            $('.tip').find('span').eq((page-1)).addClass('current').siblings().removeClass('current')
+                        })
+
                     }
                     if (e === 1) {
-                        content.animate({left: '+='+width}, 500)
-                        page--
-                        if (page === 0) {
-                            setTimeout(() => {
-                                content.animate({left: '-1200px'}, 1)
-                                page = 4
-                            }, 500)
-                        }
+                        content.animate({left: `+=${width}`}, 500, function() {
+                            page--
+                            if (page === 0) {
+                                    content.css({'left': '-1200px'})
+                                    page = 4
+                            }
+                            $('.tip').find('span').eq((page-1)).addClass('current').siblings().removeClass('current')
+                        })
                     }
-                   setTimeout(() => {
-                        $('.tip').find('span').eq((page-1)).addClass('current').siblings().removeClass('current')
-                   }, 500)
                 }
+                
                 clock = setInterval(function() {
                     apple(0)
                 }, 4000)
